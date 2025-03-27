@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow p-4 text-center">
+    <h2 class="text-success">Quiz Completed</h2>
+    <p>You have already completed the quiz on {{ quiz.date_of_quiz }}.</p>
+    <a href="/user_dashboard" class="btn btn-primary mt-3">Go to Dashboard</a>
+</div>
+{% endblock %}

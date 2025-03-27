@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="text-align: center; font-family: Arial, sans-serif; color: #333;">Admin Dashboard</h2>
+<a href="/admin_logout" style="float: right; color: white; background-color: red; padding: 8px 12px; text-decoration: none; border-radius: 5px;">Logout</a>
+
+<h3 style="font-family: Arial, sans-serif; color: #555;">Subjects</h3>
+<table border="1" style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ddd; font-family: Arial, sans-serif;">
+    <thead style="background-color: #f4f4f4;">
+        <tr>
+            <th style="padding: 10px; border: 1px solid #ddd;">Subject Name</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Description</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for subject in subjects %}
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ subject.name }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ subject.description }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">
+                <a href="/delete_subject/{{ subject.id }}" style="color: white; background-color: red; padding: 5px 10px; text-decoration: none; border-radius: 5px;">Delete</a>
+                <a href="/manage_chapters/{{ subject.id }}" style="color: white; background-color: blue; padding: 5px 10px; text-decoration: none; border-radius: 5px; margin-left: 5px;">Manage Chapters</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3 style="font-family: Arial, sans-serif; color: #555; margin-top: 30px;">Add New Subject</h3>
+<form method="POST" action="/add_subject" style="margin-top: 20px; font-family: Arial, sans-serif; border: 1px solid #ddd; padding: 20px; border-radius: 10px; background-color: #f9f9f9;">
+    <div style="margin-bottom: 15px;">
+        <label for="name" style="display: block; font-weight: bold; margin-bottom: 5px;">Subject Name:</label>
+        <input type="text" id="name" name="name" placeholder="Subject Name" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label for="description" style="display: block; font-weight: bold; margin-bottom: 5px;">Description:</label>
+        <textarea id="description" name="description" placeholder="Description" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+    </div>
+    <button type="submit" style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Add Subject</button>
+</form>
+{% endblock %}

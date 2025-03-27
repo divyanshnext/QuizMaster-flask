@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center text-primary mb-4">Chapters for {{ subject.name }}</h2>
+    <div class="text-start mb-3">
+        <a href="/user_dashboard" class="btn btn-secondary">Back</a>
+    </div>
+    <ul class="list-group">
+        {% for chapter in chapters %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ chapter.name }}
+                <a href="/view_quizzes/{{ chapter.id }}" class="btn btn-sm btn-outline-primary">View Quizzes</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

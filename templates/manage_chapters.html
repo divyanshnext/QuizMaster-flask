@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="text-align: center; margin-bottom: 20px;">Manage Chapters for {{ subject.name }}</h2>
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="/admin_dashboard" style="text-decoration: none; color: white; background-color: #007BFF; padding: 10px 15px; border-radius: 5px;">Back</a>
+</div>
+
+<h3 style="margin-bottom: 10px;">Existing Chapters</h3>
+<ul style="list-style-type: none; padding: 0;">
+    {% for chapter in chapters %}
+        <li style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+            <span>{{ chapter.name }}</span>
+            <div>
+                <a href="/delete_chapter/{{ chapter.id }}" style="text-decoration: none; color: white; background-color: #DC3545; padding: 5px 10px; border-radius: 5px; margin-right: 5px;">Delete</a>
+                <a href="/manage_quizzes/{{ chapter.id }}" style="text-decoration: none; color: white; background-color: #28A745; padding: 5px 10px; border-radius: 5px;">Manage Quizzes</a>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+
+<h3 style="margin-top: 20px; margin-bottom: 10px;">Add New Chapter</h3>
+<form method="POST" action="/add_chapter/{{ subject.id }}" style="display: flex; flex-direction: column; max-width: 400px; margin: 0 auto;">
+    <input type="text" name="name" placeholder="Chapter Name" required style="padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
+    <button type="submit" style="padding: 10px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Add Chapter</button>
+</form>
+{% endblock %}

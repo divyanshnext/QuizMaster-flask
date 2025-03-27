@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-center text-primary mb-4">Quizzes for {{ chapter.name }}</h2>
+<div class="text-start mb-3">
+    <a href="/view_chapters/{{ chapter.subject_id }}" class="btn btn-secondary">Back</a>
+</div>
+<table class="table table-bordered table-striped">
+    <thead class="table-light">
+        <tr>
+            <th>Quiz Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for quiz in quizzes %}
+        <tr>
+            <td>{{ quiz.date_of_quiz }}</td>
+            <td>
+                <a href="/attempt_quiz/{{ quiz.id }}" class="btn btn-success btn-sm">Attempt</a>
+                <a href="/view_results/{{ quiz.id }}" class="btn btn-primary btn-sm ms-2">View Results</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

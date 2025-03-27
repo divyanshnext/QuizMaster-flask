@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow p-4">
+    <h2 class="text-center text-primary mb-4">Results for Quiz on {{ quiz.date_of_quiz }}</h2>
+    <div class="text-start mb-3">
+        <a href="/view_quizzes/{{ quiz.chapter_id }}" class="btn btn-secondary">Back</a>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
+            <tr>
+                <th>Quiz ID</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for score in scores %}
+            <tr>
+                <td>{{ score.quiz_id }}</td>
+                <td>{{ score.total_scored }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

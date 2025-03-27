@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="text-align: center; color: #4CAF50;">Manage Quizzes for {{ chapter.name }}</h2>
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="/manage_chapters/{{ chapter.subject_id }}" style="text-decoration: none; color: white; background-color: #007BFF; padding: 10px 15px; border-radius: 5px;">Back</a>
+</div>
+
+<h3 style="color: #333;">Existing Quizzes</h3>
+<ul style="list-style-type: none; padding: 0;">
+    {% for quiz in quizzes %}
+        <li style="margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+            {{ quiz.date_of_quiz }} - 
+            <a href="/delete_quiz/{{ quiz.id }}" style="color: red; text-decoration: none;">Delete</a>
+            <a href="/manage_questions/{{ quiz.id }}" style="color: blue; text-decoration: none; margin-left: 10px;">Manage Questions</a>
+        </li>
+    {% endfor %}
+</ul>
+
+<h3 style="color: #333; margin-top: 30px;">Add New Quiz</h3>
+<form method="POST" action="/add_quiz/{{ chapter.id }}" style="max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+    <div style="margin-bottom: 15px;">
+        <label for="date_of_quiz" style="display: block; margin-bottom: 5px;">Date:</label>
+        <input type="date" id="date_of_quiz" name="date_of_quiz" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label for="time_duration" style="display: block; margin-bottom: 5px;">Duration:</label>
+        <input type="text" id="time_duration" name="time_duration" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+    </div>
+    <div style="text-align: center;">
+        <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Add Quiz</button>
+    </div>
+</form>
+{% endblock %}

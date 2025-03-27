@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow p-4">
+    <h2 class="text-center text-primary mb-4">User Dashboard</h2>
+    <h3 class="text-secondary mb-3">Available Subjects</h3>
+    <div class="list-group">
+        {% for subject in subjects %}
+            <a href="/view_chapters/{{ subject.id }}" class="list-group-item list-group-item-action list-group-item-light border rounded mb-2">
+                <span class="fw-bold">{{ subject.name }}</span>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

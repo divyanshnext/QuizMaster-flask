@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="text-align: center; color: #4CAF50;">Manage Questions for Quiz on {{ quiz.date_of_quiz }}</h2>
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="/manage_quizzes/{{ quiz.chapter_id }}" style="text-decoration: none; color: white; background-color: #007BFF; padding: 10px 15px; border-radius: 5px;">Back</a>
+</div>
+
+<h3 style="color: #333;">Existing Questions</h3>
+<ul style="list-style-type: none; padding: 0;">
+    {% for question in questions %}
+        <li style="margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+            {{ question.question_statement }}
+            <a href="/delete_question/{{ question.id }}" style="color: red; text-decoration: none; margin-left: 10px;">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+
+<h3 style="color: #333; margin-top: 30px;">Add New Question</h3>
+<form method="POST" style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+    <div style="margin-bottom: 15px;">
+        <label for="question_statement" style="display: block; margin-bottom: 5px;">Question:</label>
+        <textarea id="question_statement" name="question_statement" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label for="option1" style="display: block; margin-bottom: 5px;">Option 1:</label>
+        <input type="text" id="option1" name="option1" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label for="option2" style="display: block; margin-bottom: 5px;">Option 2:</label>
+        <input type="text" id="option2" name="option2" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label for="option3" style="display: block; margin-bottom: 5px;">Option 3:</label>
+        <input type="text" id="option3" name="option3" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label for="option4" style="display: block; margin-bottom: 5px;">Option 4:</label>
+        <input type="text" id="option4" name="option4" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label for="correct_option" style="display: block; margin-bottom: 5px;">Correct Option:</label>
+        <input type="text" id="correct_option" name="correct_option" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+    </div>
+    <div style="text-align: center;">
+        <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Add Question</button>
+    </div>
+</form>
+{% endblock %}
