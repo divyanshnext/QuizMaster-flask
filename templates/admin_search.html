@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Search Results for "{{ query }}"</h2>
+
+    <!-- Users Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3><i class="fas fa-users me-2"></i>Users</h3>
+            {% if users %}
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Qualification</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.full_name }}</td>
+                                <td>{{ user.qualification }}</td>
+                                <td>
+                                    <a href="/view_user_scores/{{ user.id }}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-chart-line me-1"></i>View Scores
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">No users found.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Subjects Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3><i class="fas fa-book me-2"></i>Subjects</h3>
+            {% if subjects %}
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for subject in subjects %}
+                            <tr>
+                                <td>{{ subject.name }}</td>
+                                <td>{{ subject.description }}</td>
+                                <td>
+                                    <a href="/manage_chapters/{{ subject.id }}" class="btn btn-sm btn-success">
+                                        <i class="fas fa-list me-1"></i>Manage Chapters
+                                    </a>
+                                    <a href="/delete_subject/{{ subject.id }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                        <i class="fas fa-trash me-1"></i>Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">No subjects found.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Quizzes Section -->
+    <div class="card">
+        <div class="card-body">
+            <h3><i class="fas fa-question-circle me-2"></i>Quizzes</h3>
+            {% if quizzes %}
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Chapter</th>
+                                <th>Date</th>
+                                <th>Duration</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for quiz in quizzes %}
+                            <tr>
+                                <td>{{ quiz.chapter.name }}</td>
+                                <td>{{ quiz.date_of_quiz }}</td>
+                                <td>{{ quiz.time_duration }}</td>
+                                <td>
+                                    <a href="/manage_questions/{{ quiz.id }}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-edit me-1"></i>Manage Questions
+                                    </a>
+                                    <a href="/delete_quiz/{{ quiz.id }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                        <i class="fas fa-trash me-1"></i>Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">No quizzes found.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="/admin_dashboard" class="btn btn-light">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %} 

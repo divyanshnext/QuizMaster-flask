@@ -1,25 +1,115 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card shadow p-4">
-    <h2 class="text-center text-primary mb-4">Results for Quiz on {{ quiz.date_of_quiz }}</h2>
-    <div class="text-start mb-3">
-        <a href="/view_quizzes/{{ quiz.chapter_id }}" class="btn btn-secondary">Back</a>
-    </div>
-    <table class="table table-bordered table-striped">
-        <thead class="table-light">
-            <tr>
-                <th>Quiz ID</th>
-                <th>Score</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for score in scores %}
-            <tr>
-                <td>{{ score.quiz_id }}</td>
-                <td>{{ score.total_scored }}</td>
-            </tr>
+<div class="container">
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">Quiz Results</h2>
+                <a href="{{ url_for('view_quizzes', chapter_id=quiz.chapter_id) }}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Quizzes
+                </a>
+            </div>
+
+            <!-- Score Summary -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Score</h5>
+                            <h2 class="mb-0">{{ score.total_scored }}/{{ questions|length }}</h2>
+                            <p class="mb-0">{{ "%.1f"|format(score.total_scored / questions|length * 100) }}%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-success text-white">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Correct Answers</h5>
+                            <h2 class="mb-0">{{ score.total_scored }}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-danger text-white">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Incorrect Answers</h5>
+                            <h2 class="mb-0">{{ questions|length - score.total_scored }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questions Review -->
+            <h3 class="mb-3">Questions Review</h3>
+            {% for question in questions %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h5 class="card-title mb-3">Question {{ loop.index }}</h5>
+                        {% if user_answers.get(question.id) == question.correct_option %}
+                        <span class="badge bg-success">Correct</span>
+                        {% else %}
+                        <span class="badge bg-danger">Incorrect</span>
+                        {% endif %}
+                    </div>
+                    <p class="card-text">{{ question.question_statement }}</p>
+                    
+                    <div class="options">
+                        {% for i in range(1, 5) %}
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" disabled
+                                   {% if user_answers.get(question.id) == i|string %}checked{% endif %}
+                                   title="Option {{ i }}">
+                            <label class="form-check-label {% if i|string == question.correct_option %}text-success fw-bold{% endif %}">
+                                {{ question['option' + i|string] }}
+                                {% if i|string == question.correct_option %}
+                                <i class="fas fa-check-circle ms-2"></i>
+                                {% endif %}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
             {% endfor %}
-        </tbody>
-    </table>
+        </div>
+    </div>
 </div>
+
+<style>
+.card {
+    border: none;
+    margin-bottom: 1rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+}
+
+.form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.form-check-input:disabled {
+    opacity: 0.7;
+}
+
+.options {
+    margin-top: 1rem;
+}
+
+.text-success {
+    color: #198754 !important;
+}
+
+.fw-bold {
+    font-weight: 600 !important;
+}
+</style>
 {% endblock %}

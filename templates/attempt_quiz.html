@@ -1,30 +1,105 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card shadow p-4">
-    <h2 class="text-center">Quiz on {{ quiz.date_of_quiz }}</h2>
-    <form method="POST">
-        {% for question in questions %}
-            <div class="mb-3">
-                <p><strong>{{ question.question_statement }}</strong></p>
-                <div class="form-check">
-                    <input type="radio" class="form-check-input" name="question_{{ question.id }}" value="{{ question.option1 }}">
-                    <label class="form-check-label">{{ question.option1 }}</label>
-                </div>
-                <div class="form-check">
-                    <input type="radio" class="form-check-input" name="question_{{ question.id }}" value="{{ question.option2 }}">
-                    <label class="form-check-label">{{ question.option2 }}</label>
-                </div>
-                <div class="form-check">
-                    <input type="radio" class="form-check-input" name="question_{{ question.id }}" value="{{ question.option3 }}">
-                    <label class="form-check-label">{{ question.option3 }}</label>
-                </div>
-                <div class="form-check">
-                    <input type="radio" class="form-check-input" name="question_{{ question.id }}" value="{{ question.option4 }}">
-                    <label class="form-check-label">{{ question.option4 }}</label>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">{{ quiz.chapter.name }} Quiz</h2>
+                <div class="timer-container">
+                    <div class="badge bg-primary p-3">
+                        <i class="fas fa-clock me-2"></i>Time Remaining: 
+                        <span id="timer">{{ quiz.time_duration }} min</span>
+                    </div>
                 </div>
             </div>
-        {% endfor %}
-        <button type="submit" class="btn btn-primary w-100">Submit Quiz</button>
-    </form>
+
+            <form id="quizForm" method="POST" action="{{ url_for('attempt_quiz', quiz_id=quiz.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                {% for question in questions %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">{{ loop.index }}. {{ question.question_statement }}</h5>
+                        <div class="options">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="question_{{ question.id }}" 
+                                       id="q{{ question.id }}_1" value="1" required>
+                                <label class="form-check-label" for="q{{ question.id }}_1">
+                                    {{ question.option1 }}
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="question_{{ question.id }}"
+                                       id="q{{ question.id }}_2" value="2">
+                                <label class="form-check-label" for="q{{ question.id }}_2">
+                                    {{ question.option2 }}
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="question_{{ question.id }}"
+                                       id="q{{ question.id }}_3" value="3">
+                                <label class="form-check-label" for="q{{ question.id }}_3">
+                                    {{ question.option3 }}
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="question_{{ question.id }}"
+                                       id="q{{ question.id }}_4" value="4">
+                                <label class="form-check-label" for="q{{ question.id }}_4">
+                                    {{ question.option4 }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-paper-plane me-2"></i>Submit Quiz
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get duration in minutes from the quiz
+    const durationMinutes = parseInt("{{ quiz.time_duration }}");
+    let totalSeconds = durationMinutes * 60;
+    
+    const timerElement = document.getElementById('timer');
+    const quizForm = document.getElementById('quizForm');
+    
+    function updateTimer() {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        
+        timerElement.textContent = `${minutes}:${String(seconds).padStart(2, '0')} min`;
+        
+        if (totalSeconds <= 0) {
+            clearInterval(timerInterval);
+            alert('Time is up! Submitting your quiz...');
+            quizForm.submit();
+        }
+        
+        totalSeconds--;
+    }
+    
+    // Update timer every second
+    updateTimer();
+    const timerInterval = setInterval(updateTimer, 1000);
+    
+    // Warn user before leaving the page
+    window.onbeforeunload = function() {
+        return "Are you sure you want to leave? Your quiz progress will be lost!";
+    };
+    
+    // Remove warning when submitting the form
+    quizForm.onsubmit = function() {
+        window.onbeforeunload = null;
+    };
+});
+</script>
 {% endblock %}

@@ -1,14 +1,119 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card shadow p-4">
-    <h2 class="text-center text-primary mb-4">User Dashboard</h2>
-    <h3 class="text-secondary mb-3">Available Subjects</h3>
-    <div class="list-group">
-        {% for subject in subjects %}
-            <a href="/view_chapters/{{ subject.id }}" class="list-group-item list-group-item-action list-group-item-light border rounded mb-2">
-                <span class="fw-bold">{{ subject.name }}</span>
-            </a>
-        {% endfor %}
+<div class="container-fluid px-3">
+    <!-- Header Section -->
+    <div class="header-section">
+        <h4>Welcome User</h4>
+        <div class="search-box">
+            <input type="text" class="form-control" placeholder="Search...">
+        </div>
+    </div>
+
+    <!-- Upcoming Quizzes Section -->
+    <div class="quiz-table">
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Questions</th>
+                    <th>Subject</th>
+                    <th>Date</th>
+                    <th>Duration</th>
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for quiz, chapter, subject, question_count in upcoming_quizzes %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ question_count }}</td>
+                    <td>{{ subject.name }}</td>
+                    <td>{{ quiz.date_of_quiz }}</td>
+                    <td>{{ quiz.time_duration }} min</td>
+                    <td class="text-end">
+                        <a href="{{ url_for('view_quizzes', chapter_id=chapter.id) }}" class="btn btn-outline-primary">View</a>
+                        <a href="{{ url_for('attempt_quiz', quiz_id=quiz.id) }}" class="btn btn-primary">Start</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
+
+<style>
+    .container-fluid {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .search-box {
+        width: 200px;
+    }
+
+    .quiz-table {
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+    }
+
+    .table {
+        margin-bottom: 0;
+        background-color: white;
+    }
+
+    .table tr {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .table tr:last-child {
+        border-bottom: none;
+    }
+
+    .table th {
+        background: #f8f9fa;
+        font-weight: 600;
+        padding: 12px;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .table td {
+        padding: 12px;
+        vertical-align: middle;
+        background-color: white;
+    }
+
+    .btn {
+        padding: 4px 12px;
+        font-size: 14px;
+        margin-left: 8px;
+    }
+
+    .btn-primary {
+        background-color: #2563eb;
+        border-color: #2563eb;
+    }
+
+    .btn-outline-primary {
+        color: #2563eb;
+        border-color: #2563eb;
+    }
+
+    @media (max-width: 768px) {
+        .search-box {
+            width: 150px;
+        }
+        
+        .table td, .table th {
+            padding: 8px;
+        }
+    }
+</style>
 {% endblock %}

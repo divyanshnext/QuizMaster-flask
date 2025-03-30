@@ -1,11 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Admin Login</h2>
-<form method="POST">
-    <label>Username:</label>
-    <input type="text" name="username">
-    <label>Password:</label>
-    <input type="password" name="password">
-    <button type="submit">Login</button>
-</form>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="text-center mb-4">Admin Login</h2>
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+                <div class="text-center mt-3">
+                    <p><a href="{{ url_for('login') }}">Back to User Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

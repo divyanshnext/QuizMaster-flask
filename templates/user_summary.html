@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center mb-4">Your Quiz Statistics</h2>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Subject-wise Quiz Count</h3>
+                    <canvas id="quizCountChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Monthly Quiz Attempts</h3>
+                    <canvas id="monthlyAttemptsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Quiz Count Chart
+const quizCountCtx = document.getElementById('quizCountChart').getContext('2d');
+const quizCountChart = new Chart(quizCountCtx, {
+    type: 'bar',
+    data: {
+        labels: {{ subjects|tojson }},
+        datasets: [{
+            label: 'Number of Quizzes',
+            data: {{ quiz_counts|tojson }},
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(153, 102, 255, 0.5)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1,
+                    color: '#1e293b'
+                },
+                grid: {
+                    color: '#e2e8f0'
+                }
+            },
+            x: {
+                ticks: {
+                    color: '#1e293b'
+                },
+                grid: {
+                    color: '#e2e8f0'
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#1e293b'
+                }
+            }
+        }
+    }
+});
+
+// Monthly Attempts Chart
+const monthlyAttemptsCtx = document.getElementById('monthlyAttemptsChart').getContext('2d');
+const monthlyAttemptsChart = new Chart(monthlyAttemptsCtx, {
+    type: 'line',
+    data: {
+        labels: {{ months|tojson }},
+        datasets: [{
+            label: 'Quiz Attempts',
+            data: {{ monthly_attempts|tojson }},
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.4,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1,
+                    color: '#1e293b'
+                },
+                grid: {
+                    color: '#e2e8f0'
+                }
+            },
+            x: {
+                ticks: {
+                    color: '#1e293b'
+                },
+                grid: {
+                    color: '#e2e8f0'
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#1e293b'
+                }
+            }
+        }
+    }
+});
+</script>
+
+<style>
+.card {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    color: #1e293b;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+canvas {
+    background: white;
+    border-radius: 4px;
+    padding: 10px;
+}
+</style>
+{% endblock %} 

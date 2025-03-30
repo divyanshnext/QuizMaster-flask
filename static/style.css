@@ -1,7 +1,147 @@
+/* General body styling */
 body {
-    background-color: #f8f9fa;
+    background: #0d1117;
+    font-family: 'Courier New', monospace;
+    color: #c9d1d9;
+    margin: 0;
+    padding: 0;
 }
+
+/* Card styling */
 .card {
     max-width: 600px;
     margin: auto;
+    background: #161b22;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 255, 0, 0.2);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #c9d1d9;
 }
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 255, 0, 0.4);
+}
+
+/* Button styling */
+.btn {
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: 'Courier New', monospace;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background-color: #198754;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #146c43;
+    transform: scale(1.05);
+}
+
+/* Navbar styling */
+.navbar {
+    background: #161b22;
+    color: #c9d1d9;
+    padding: 10px 20px;
+    box-shadow: 0 4px 10px rgba(0, 255, 0, 0.2);
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #0d6efd;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
+}
+
+.navbar-brand:hover {
+    color: #0056b3;
+}
+
+/* Table styling */
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+    font-size: 1rem;
+    text-align: left;
+    background: #161b22;
+    color: #c9d1d9;
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    border: 1px solid #30363d;
+}
+
+.table th {
+    background-color: #0d6efd;
+    color: #ffffff;
+}
+
+.table tr:nth-child(even) {
+    background-color: #21262d;
+}
+
+.table tr:hover {
+    background-color: #30363d;
+}
+
+/* Form styling */
+form {
+    margin: 20px 0;
+}
+
+form input, form textarea, form select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #30363d;
+    border-radius: 5px;
+    background: #161b22;
+    color: #c9d1d9;
+    box-shadow: inset 0 1px 3px rgba(0, 255, 0, 0.2);
+}
+
+form button {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Footer styling */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #161b22;
+    color: #c9d1d9;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -4px 10px rgba(0, 255, 0, 0.2);
+}
+

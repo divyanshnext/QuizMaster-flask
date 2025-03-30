@@ -1,14 +1,200 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card shadow p-4">
-    <h2 class="text-center text-primary mb-4">Your Quiz Scores</h2>
-    <ul class="list-group">
-        {% for score in scores %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span>Quiz ID: {{ score.quiz_id }}</span>
-                <strong>Score: {{ score.total_scored }}</strong>
-            </li>
-        {% endfor %}
-    </ul>
+<div class="container-fluid px-3">
+    <!-- Header Section -->
+    <div class="header-section">
+        <h4>Performance Summary</h4>
+        <a href="{{ url_for('user_dashboard') }}" class="btn btn-outline-primary">Back to Dashboard</a>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <div class="summary-details">
+                    <h3>{{ scores|length }}</h3>
+                    <p>Quizzes Attempted</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="summary-details">
+                    <h3>{{ (scores|sum(attribute='total_scored') / scores|length)|round(1) if scores else 0 }}</h3>
+                    <p>Average Score</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="summary-details">
+                    <h3>{{ scores|max(attribute='total_scored') if scores else 0 }}</h3>
+                    <p>Highest Score</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scores Table -->
+    <div class="quiz-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Quiz</th>
+                    <th>Date</th>
+                    <th>Score</th>
+                    <th class="text-end">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for score in scores %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>Quiz {{ score.quiz_id }}</td>
+                    <td>{{ score.quiz.date_of_quiz if score.quiz else 'N/A' }}</td>
+                    <td>{{ score.total_scored }}</td>
+                    <td class="text-end">
+                        {% if score.total_scored >= 8 %}
+                            <span class="badge bg-success">Excellent</span>
+                        {% elif score.total_scored >= 6 %}
+                            <span class="badge bg-primary">Good</span>
+                        {% elif score.total_scored >= 4 %}
+                            <span class="badge bg-warning text-dark">Average</span>
+                        {% else %}
+                            <span class="badge bg-danger">Needs Improvement</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<style>
+    /* Basic Layout */
+    .container-fluid {
+        max-width: 1100px;
+        margin: 20px auto;
+    }
+
+    /* Header Section */
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    /* Summary Cards */
+    .summary-card {
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .summary-icon {
+        width: 48px;
+        height: 48px;
+        background: #f8f9fa;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #2563eb;
+        font-size: 24px;
+    }
+
+    .summary-details h3 {
+        color: #1e293b;
+        margin: 0;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .summary-details p {
+        color: #64748b;
+        margin: 0;
+        font-size: 14px;
+    }
+
+    /* Table Styles */
+    .quiz-table {
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table th {
+        background: #f8f9fa;
+        font-weight: 600;
+        padding: 12px;
+        color: #1e293b;
+    }
+
+    .table td {
+        padding: 12px;
+        vertical-align: middle;
+        color: #334155;
+    }
+
+    .table tr {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .table tr:last-child {
+        border-bottom: none;
+    }
+
+    /* Badge Styles */
+    .badge {
+        padding: 6px 12px;
+        font-weight: 500;
+    }
+
+    .bg-success {
+        background-color: #22c55e !important;
+    }
+
+    .bg-primary {
+        background-color: #2563eb !important;
+    }
+
+    .bg-warning {
+        background-color: #f59e0b !important;
+    }
+
+    .bg-danger {
+        background-color: #ef4444 !important;
+    }
+
+    /* Button Styles */
+    .btn {
+        padding: 4px 12px;
+        font-size: 14px;
+    }
+
+    .btn-outline-primary {
+        color: #2563eb;
+        border-color: #2563eb;
+    }
+</style>
 {% endblock %}

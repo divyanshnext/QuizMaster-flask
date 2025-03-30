@@ -1,26 +1,110 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2 class="text-center text-primary mb-4">Quizzes for {{ chapter.name }}</h2>
-<div class="text-start mb-3">
-    <a href="/view_chapters/{{ chapter.subject_id }}" class="btn btn-secondary">Back</a>
+<div class="container-fluid px-3">
+    <!-- Header Section -->
+    <div class="header-section">
+        <h4>{{ chapter.name }} - Quizzes</h4>
+        <a href="/view_chapters/{{ chapter.subject_id }}" class="btn btn-outline-primary">Back</a>
+    </div>
+
+    <!-- Quizzes Table Section -->
+    <div class="quiz-table">
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Quiz Date</th>
+                    <th>Duration</th>
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for quiz in quizzes %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ quiz.date_of_quiz }}</td>
+                    <td>{{ quiz.time_duration }} min</td>
+                    <td class="text-end">
+                        <a href="/view_results/{{ quiz.id }}" class="btn btn-outline-primary">Results</a>
+                        <a href="/attempt_quiz/{{ quiz.id }}" class="btn btn-primary">Attempt</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
-<table class="table table-bordered table-striped">
-    <thead class="table-light">
-        <tr>
-            <th>Quiz Date</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for quiz in quizzes %}
-        <tr>
-            <td>{{ quiz.date_of_quiz }}</td>
-            <td>
-                <a href="/attempt_quiz/{{ quiz.id }}" class="btn btn-success btn-sm">Attempt</a>
-                <a href="/view_results/{{ quiz.id }}" class="btn btn-primary btn-sm ms-2">View Results</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+
+<style>
+    /* Basic Layout */
+    .container-fluid {
+        max-width: 1100px;
+        margin: 20px auto;
+    }
+
+    /* Header Section */
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    /* Table Styles */
+    .quiz-table {
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+    }
+
+    .table {
+        margin-bottom: 0;
+        background-color: white;
+    }
+
+    .table tr {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .table tr:last-child {
+        border-bottom: none;
+    }
+
+    .table th {
+        background: #f8f9fa;
+        font-weight: 600;
+        padding: 12px;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .table td {
+        padding: 12px;
+        vertical-align: middle;
+        background-color: white;
+    }
+
+    /* Button Styles */
+    .btn {
+        padding: 4px 12px;
+        font-size: 14px;
+        margin-left: 8px;
+    }
+
+    .btn-primary {
+        background-color: #2563eb;
+        border-color: #2563eb;
+    }
+
+    .btn-outline-primary {
+        color: #2563eb;
+        border-color: #2563eb;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .table td, .table th {
+            padding: 8px;
+        }
+    }
+</style>
 {% endblock %}

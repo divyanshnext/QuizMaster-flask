@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center mb-4">Admin Summary Dashboard</h2>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card bg-dark">
+                <div class="card-body">
+                    <h3 class="card-title">Subject-wise Top Scores</h3>
+                    <canvas id="topScoresChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card bg-dark">
+                <div class="card-body">
+                    <h3 class="card-title">Subject-wise User Attempts</h3>
+                    <canvas id="userAttemptsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Top Scores Chart
+const topScoresCtx = document.getElementById('topScoresChart').getContext('2d');
+const topScoresChart = new Chart(topScoresCtx, {
+    type: 'bar',
+    data: {
+        labels: {{ subjects|tojson }},
+        datasets: [{
+            label: 'Top Scores',
+            data: {{ top_scores|tojson }},
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(153, 102, 255, 0.5)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: {
+                    color: '#e0e0e0'
+                },
+                grid: {
+                    color: '#333333'
+                }
+            },
+            x: {
+                ticks: {
+                    color: '#e0e0e0'
+                },
+                grid: {
+                    color: '#333333'
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#e0e0e0'
+                }
+            }
+        }
+    }
+});
+
+// User Attempts Chart
+const userAttemptsCtx = document.getElementById('userAttemptsChart').getContext('2d');
+const userAttemptsChart = new Chart(userAttemptsCtx, {
+    type: 'doughnut',
+    data: {
+        labels: {{ subjects|tojson }},
+        datasets: [{
+            data: {{ attempts_count|tojson }},
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(153, 102, 255, 0.5)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#e0e0e0'
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %} 

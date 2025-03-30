@@ -1,29 +1,41 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card shadow p-4">
-    <h2 class="text-center">Register</h2>
-    <form method="POST">
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="text" name="username" class="form-control" required>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="text-center mb-4">Register</h2>
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="full_name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="full_name" name="full_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="qualification" class="form-label">Qualification</label>
+                        <input type="text" class="form-control" id="qualification" name="qualification" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dob" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="dob" name="dob" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+                <div class="text-center mt-3">
+                    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Full Name</label>
-            <input type="text" name="full_name" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Qualification</label>
-            <input type="text" name="qualification" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Date of Birth</label>
-            <input type="date" name="dob" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-success w-100">Register</button>
-    </form>
+    </div>
 </div>
 {% endblock %}

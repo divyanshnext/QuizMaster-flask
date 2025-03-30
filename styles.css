@@ -1,0 +1,80 @@
+/* General text styles */
+body {
+    color: #333; /* Use a darker gray for better readability */
+    background-color: #fff; /* Ensure a white background */
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: #000; /* Use black for headings to make them stand out */
+}
+
+/* Links */
+a {
+    color: #0056b3; /* Use a darker blue for better visibility */
+    text-decoration: none;
+}
+
+a:hover {
+    color: #003d80; /* Slightly darker blue on hover */
+}
+
+/* Placeholder text (e.g., in input fields) */
+::placeholder {
+    color: #666; /* Use a medium gray for better visibility */
+}
+
+/* Existing Questions Section */
+body .existing-questions {
+    font-size: 18px; /* Increase font size */
+    color: #ffffff !important; /* Force text to be totally white */
+    background-color: #333333; /* Ensure background is dark for contrast */
+    padding: 10px; /* Add padding for better readability */
+    border-radius: 5px; /* Add rounded corners */
+}
+
+/* Delete Button */
+.delete-button {
+    color: #ff4d4d; /* Use a bright red color for delete button */
+    font-weight: bold; /* Make the text bold */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+/* Add New Question Section */
+body .add-new-question {
+    font-size: 18px; /* Increase font size */
+    color: #ffffff !important; /* Force text to be totally white */
+    background-color: #444444; /* Ensure background is slightly lighter */
+    padding: 15px; /* Add padding for better spacing */
+    border-radius: 5px; /* Add rounded corners */
+}
+
+/* Input Fields */
+input[type="text"], textarea {
+    font-size: 16px; /* Increase font size */
+    color: #000000; /* Use black text for input fields */
+    background-color: #ffffff; /* Use white background for input fields */
+    border: 1px solid #cccccc; /* Add a border for better visibility */
+    padding: 8px; /* Add padding inside input fields */
+    border-radius: 4px; /* Add rounded corners */
+}
+
+/* Back Button */
+.back-button {
+    font-size: 16px; /* Increase font size */
+    color: #ffffff; /* Use white text */
+    background-color: #007bff; /* Use a bright blue background */
+    padding: 10px 20px; /* Add padding for better clickability */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add rounded corners */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+.back-button:hover {
+    background-color: #0056b3; /* Darken the blue on hover */
+}
+
+/* Date and Duration */
+body .date, body .duration {
+    color: #000000 !important; /* Force text to be totally black */
+}

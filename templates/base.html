@@ -1,56 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags for proper rendering and character encoding -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Master</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- External CSS libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom CSS styles -->
     <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #f8fafc;
+            --text-color: #1e293b;
+            --accent-color: #e2e8f0;
+            --danger-color: #ef4444;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            --info-color: #3b82f6;
+            --border-color: #e5e7eb;
+            --hover-bg: #f1f5f9;
+        }
+
+        /* Base styles */
+        body {
+            background-color: #ffffff;
+            color: var(--text-color);
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: var(--secondary-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Brand styling */
         .navbar-brand {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
+            color: var(--primary-color) !important;
+            text-shadow: none;
+            transition: all 0.3s ease;
         }
-        .container {
-            max-width: 900px;
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
+            color: #1d4ed8 !important;
         }
+
+        /* Button styling */
+        .btn {
+            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Button variants */
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            border-color: #1d4ed8;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            border-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+            border-color: #dc2626;
+        }
+
+        .btn-light {
+            background-color: white;
+            border-color: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .btn-light:hover {
+            background-color: var(--hover-bg);
+            border-color: var(--border-color);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #16a34a;
+            border-color: #16a34a;
+        }
+
+        /* Card styling */
+        .card {
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        /* Heading styles */
         h2, h3 {
-            font-family: 'Arial', sans-serif;
-            color: #333;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Form control styling */
+        .form-control {
+            background-color: white;
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.25);
+            border-color: var(--primary-color);
+        }
+
+        /* Table styling */
+        .table {
+            color: var(--text-color);
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table th {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+
+        .table td {
+            border-color: var(--border-color);
+        }
+
+        /* Chart container styling */
+        canvas {
+            margin: 1rem 0;
+            border-radius: 10px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            animation: fadeIn 0.5s ease-out;
+            margin-bottom: 2rem;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--secondary-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1d4ed8;
+        }
+
+        /* Alert styling */
+        .alert {
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-success {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .alert-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .alert-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* Badge styling */
+        .badge {
+            padding: 0.5em 1em;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .badge-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Flash message container */
+        .flash-messages {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-        <a class="navbar-brand" href="/">Quiz Master</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                {% if session.get('user_id') %}
-                    <li class="nav-item">
-                        <a href="/user_dashboard" class="btn btn-primary me-2">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/logout" class="btn btn-danger">Logout</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a href="/login" class="btn btn-light me-2">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/register" class="btn btn-success">Register</a>
-                    </li>
-                {% endif %}
-            </ul>
+    <!-- Flash Messages Container -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Brand -->
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-brain me-2"></i>Quiz Master
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if session.get('admin') %}
+                        <!-- Admin Navigation -->
+                        <li class="nav-item">
+                            <a href="/admin_dashboard" class="btn btn-primary me-2">
+                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin_summary" class="btn btn-success me-2">
+                                <i class="fas fa-chart-bar me-2"></i>Summary Charts
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin_logout" class="btn btn-danger">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a>
+                        </li>
+                    {% elif session.get('user_id') %}
+                        <!-- User Navigation -->
+                        <li class="nav-item">
+                            <a href="/user_dashboard" class="btn btn-primary me-2">
+                                <i class="fas fa-home me-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/user_summary" class="btn btn-success me-2">
+                                <i class="fas fa-chart-line me-2"></i>My Statistics
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/logout" class="btn btn-danger">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a>
+                        </li>
+                    {% else %}
+                        <!-- Guest Navigation -->
+                        <li class="nav-item">
+                            <a href="/login" class="btn btn-light me-2">
+                                <i class="fas fa-sign-in-alt me-2"></i>Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/register" class="btn btn-success">
+                                <i class="fas fa-user-plus me-2"></i>Register
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </nav>
 
+    <!-- Main Content Container -->
     <div class="container mt-5">
         {% block content %}{% endblock %}
     </div>
 
+    <!-- JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>
