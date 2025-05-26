@@ -1,3 +1,4 @@
+
 # Quiz Master - Online Quiz Management System
 
 A comprehensive web-based quiz management system that allows administrators to create and manage quizzes while enabling users to take quizzes and track their performance.
@@ -107,21 +108,29 @@ python app.py
 
 6. Access the application:
 - User Interface: http://localhost:5000
-- Admin Interface: http://localhost:5000/admin_login
+- Admin Interface: http://localhost:5000/admin_login  
   - Default Admin Credentials:
-    - Username: admin
-    - Password: admin123
+    - Username: `admin`
+    - Password: `admin123`
 
 ## Project Structure
+
 ```
 quizMaster/
 ├── app.py              # Main application file
 ├── models.py           # Database models
 ├── requirements.txt    # Project dependencies
-├── static/            # Static files (CSS, JS, images)
-├── templates/         # HTML templates
-└── instance/          # Database and instance-specific files
+├── static/             # Static files (CSS, JS, images)
+├── templates/          # HTML templates
+├── instance/           # Database and instance-specific files
+└── screenshots/        # Screenshots for README display
 ```
+
+## Screenshots
+
+### Home Page
+
+![Home Page]![Screenshot 2025-05-26 232222](https://github.com/user-attachments/assets/23c56002-71c5-482f-bdad-d16782a33929)
 
 ## Security Features
 - Separate user and admin authentication
@@ -145,4 +154,4 @@ quizMaster/
 Feel free to submit issues and enhancement requests!
 
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
